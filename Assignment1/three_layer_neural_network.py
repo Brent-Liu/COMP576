@@ -169,6 +169,13 @@ class NeuralNetwork(object):
         :param y: given labels
         :return: dL/dW1, dL/b1, dL/dW2, dL/db2
         '''
+        num_examples = len(X)
+        z = np.stack((1-y, y), -1)
+        dW2 = self.a1.T.dot(self.probs - z)
+        db2 = np.ones(num_examples).T.dot(self.probs - z)
+        dW1 = X.T.dot((self.probs - Z).dot(self.W2.T) * self.diff_actFun(self.z1, self.actFun_type))
+        db1 = np.ones(num_examples).T.dot((self.probs - Z).dot(self.W2.T) * (self.diff_actFun(self.z1, self.actFun_type)))
+        return dW1, dW2, db1, db2
 
         # IMPLEMENT YOUR BACKPROP HERE
 
