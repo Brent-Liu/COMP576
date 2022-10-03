@@ -107,6 +107,9 @@ class NeuralNetwork(object):
                 return 0
 
         return None
+    
+    def softmax(z):
+        return np.exp(z) / np.sum(np.exp(z), axis=-1, keepdims=True)
 
     def feedforward(self, X, actFun):
         '''
@@ -123,6 +126,10 @@ class NeuralNetwork(object):
         # self.a1 =
         # self.z2 =
         # self.probs =
+        self.z1 = np.dot(X, self.W1) + self.b1
+        self.a1 = actFun(self.z1)
+        self.z2 = np.dot(self.a1, self.W2) + self.b2
+        self.probs = self.softmax(self.z2)
         return None
 
     def calculate_loss(self, X, y):
@@ -139,6 +146,8 @@ class NeuralNetwork(object):
         # YOU IMPLEMENT YOUR CALCULATION OF THE LOSS HERE
 
         # data_loss =
+        y = np.stack((1 - y), y), -1)
+        data_loss = -(y * np.log(self.probs)).sum()
 
         # Add regulatization term to loss (optional)
         data_loss += self.reg_lambda / 2 * (np.sum(np.square(self.W1)) + np.sum(np.square(self.W2)))
