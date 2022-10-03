@@ -75,6 +75,15 @@ class NeuralNetwork(object):
         '''
 
         # YOU IMPLMENT YOUR actFun HERE
+        if type == 'Tanh':
+            return (np.exp(z) - np.exp(-z)) / (np.exp(z) + np.exp(-z))
+        if type == 'Sigmoid':
+            return  1 / (1 + np.exp(-z))
+        if type == 'ReLU':
+            if (z > 0):
+                return z
+            else :
+                return 0
 
         return None
 
@@ -87,6 +96,15 @@ class NeuralNetwork(object):
         '''
 
         # YOU IMPLEMENT YOUR diff_actFun HERE
+        if type == 'Tanh':
+            return 1 - (np.exp(z) - np.exp(-z)) / (np.exp(z) + np.exp(-z))**2
+        if type == 'Sigmoid':
+            return (1 / (1 + np.exp(-z)))(1 - 1 / (1 + np.exp(-z)))
+        if type == 'ReLU':
+            if (z > 0):
+                return 1.0;
+            else :
+                return 0
 
         return None
 
